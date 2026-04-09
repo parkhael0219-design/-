@@ -3,59 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hael's English Quest</title>
+    <title>하엘의 영단어 공부노트</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f5f7fa; color: #333; }
+        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f8fbff; color: #333; }
         .container { max-width: 500px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
-        .screen { display: none; padding: 20px; flex-direction: column; flex-grow: 1; }
+        .screen { display: none; padding: 25px; flex-direction: column; flex-grow: 1; }
         .active { display: flex; }
 
-        /* 메인 화면 */
-        .main-header { text-align: center; padding-top: 50px; padding-bottom: 20px; }
-        .main-icon { font-size: 70px; margin-bottom: 15px; }
-        .main-title { font-size: 28px; font-weight: 900; color: #2d3436; margin-bottom: 8px; }
-        .main-desc { color: #636e72; margin-bottom: 35px; font-size: 15px; }
-
-        .btn { border: none; border-radius: 16px; padding: 20px; font-size: 17px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-bottom: 12px; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .btn-choice { background-color: #0984e3; color: white; }
-        .btn-typing { background-color: #6c5ce7; color: white; }
-        .btn-study { background-color: #ffffff; color: #2d3436; border: 2px solid #dfe6e9; }
-        .btn:active { transform: scale(0.97); }
-
-        /* 진행도 바 */
-        .progress-container { background: #dfe6e9; border-radius: 10px; height: 8px; margin-bottom: 20px; }
-        .progress-fill { background: #00cec9; height: 100%; border-radius: 10px; width: 0%; transition: 0.3s; }
-
-        /* 퀴즈 박스 */
-        .quiz-card { background: white; border-radius: 24px; padding: 40px 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 25px; position: relative; }
-        .quiz-word { font-size: 40px; font-weight: 900; color: #2d3436; margin-bottom: 10px; }
+        /* 메인 상단 디자인 */
+        .main-header { 
+            text-align: center; 
+            padding-top: 80px; 
+            padding-bottom: 50px; 
+            background: #ffffff; 
+            border-radius: 0 0 50px 50px; 
+            box-shadow: 0 15px 30px rgba(72, 52, 212, 0.05);
+            margin-bottom: 40px;
+        }
+        .main-icon { 
+            font-size: 70px; 
+            margin-bottom: 20px; 
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
         
-        /* 발음 버튼 스타일 */
-        .btn-speak { background: #e0e7ff; border: none; border-radius: 50%; width: 44px; height: 44px; cursor: pointer; font-size: 20px; color: #4f46e5; margin-bottom: 10px; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .btn-speak:hover { background: #c7d2fe; transform: scale(1.1); }
+        .main-title { 
+            font-size: 34px; 
+            font-weight: 900; 
+            color: #4834d4; 
+            margin: 0;
+            letter-spacing: -1.5px;
+        }
 
-        /* 예문 박스 */
-        .example-box { display: none; background: #f8f9fa; border-left: 5px solid #0984e3; padding: 18px; text-align: left; margin-top: 20px; border-radius: 12px; animation: fadeIn 0.4s; }
-        .ex-en { font-size: 15px; color: #2d3436; font-style: italic; margin-bottom: 6px; line-height: 1.4; display: flex; align-items: flex-start; gap: 8px; }
-        .ex-ko { font-size: 13px; color: #7f8c8d; padding-left: 28px; }
-        .mini-speak { cursor: pointer; color: #0984e3; font-size: 16px; margin-top: 2px; }
+        /* 버튼 스타일 */
+        .btn { border: none; border-radius: 25px; padding: 22px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-bottom: 15px; width: 100%; box-shadow: 0 8px 15px rgba(0,0,0,0.06); }
+        .btn-choice { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: white; }
+        .btn-typing { background: linear-gradient(135deg, #0984e3, #74b9ff); color: white; }
+        .btn-study { background: white; color: #2d3436; border: 2px solid #edf2f7; }
+        .btn:active { transform: scale(0.96); }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-container { background: #eee; border-radius: 10px; height: 8px; margin-bottom: 25px; overflow: hidden; }
+        .progress-fill { background: #4834d4; height: 100%; width: 0%; transition: 0.4s; }
 
-        /* 객관식 리스트 */
+        .quiz-card { background: white; border-radius: 35px; padding: 40px 20px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.04); margin-bottom: 25px; }
+        .quiz-word { font-size: 46px; font-weight: 900; color: #2d3436; margin-bottom: 10px; }
+        
+        .btn-speak { background: #f0f3ff; border: none; border-radius: 50%; width: 55px; height: 55px; cursor: pointer; font-size: 24px; color: #4834d4; margin-bottom: 15px; }
+        .example-box { display: none; background: #fcfcff; border-left: 5px solid #4834d4; padding: 20px; text-align: left; margin-top: 25px; border-radius: 15px; }
+        
         .choice-list { display: grid; gap: 12px; }
-        .choice-item { background: white; border: 2px solid #f1f2f6; border-radius: 18px; padding: 18px; font-size: 16px; text-align: center; cursor: pointer; transition: 0.2s; font-weight: 600; }
-        .correct { background: #55efc4 !important; border-color: #00b894 !important; color: white; }
-        .wrong { background: #ff7675 !important; border-color: #d63031 !important; color: white; }
+        .choice-item { background: white; border: 2px solid #f1f2f6; border-radius: 20px; padding: 18px; font-size: 17px; text-align: center; cursor: pointer; transition: 0.2s; font-weight: 600; }
+        .correct { background: #00b894 !important; color: white; border-color: #00b894 !important; }
+        .wrong { background: #ff7675 !important; color: white; border-color: #ff7675 !important; }
         
-        /* 주관식 입력창 */
         .typing-container { display: none; }
-        .input-word { width: 100%; padding: 20px; font-size: 22px; border: 2px solid #dfe6e9; border-radius: 18px; text-align: center; box-sizing: border-box; margin-bottom: 15px; font-weight: bold; }
-        .input-word:focus { border-color: #6c5ce7; outline: none; background-color: #fefaff; }
-
+        .input-word { width: 100%; padding: 20px; font-size: 24px; border: 3px solid #eee; border-radius: 20px; text-align: center; box-sizing: border-box; margin-bottom: 15px; font-weight: bold; }
+        .input-word:focus { border-color: #6c5ce7; outline: none; }
+        
         .btn-next { display: none; background: #2d3436; color: white; margin-top: 20px; }
-        .btn-back { background: transparent; color: #adb5bd; font-size: 14px; margin-top: 10px; text-decoration: underline; box-shadow: none; }
+        .btn-back { background: transparent; color: #b2bec3; font-size: 14px; margin-top: 20px; box-shadow: none; }
     </style>
 </head>
 <body>
@@ -63,46 +74,42 @@
 <div class="container">
     <div id="main-screen" class="screen active">
         <div class="main-header">
-            <div class="main-icon">💎</div>
-            <div class="main-title">Hael's Intelligence</div>
-            <div class="main-desc">필수 영단어 20제 (100+ 단어 랜덤)</div>
+            <div class="main-icon">📖</div>
+            <h1 class="main-title">하엘의 영단어 공부노트</h1>
         </div>
-        <button class="btn btn-choice" onclick="startQuiz('choice')">객관식 퀘스트</button>
-        <button class="btn btn-typing" onclick="startQuiz('typing')">주관식 퀘스트</button>
-        <button class="btn btn-study" onclick="startQuiz('study')">예문 집중 학습</button>
+        <button class="btn btn-choice" onclick="startQuiz('choice')">객관식 퀴즈 풀기</button>
+        <button class="btn btn-typing" onclick="startQuiz('typing')">주관식 도전하기</button>
+        <button class="btn btn-study" onclick="startQuiz('study')">예문으로 공부하기</button>
     </div>
 
     <div id="quiz-screen" class="screen">
-        <div id="progress-info" style="margin-bottom: 10px; font-weight: bold; font-size: 14px; color: #636e72;">문제 01 / 20</div>
+        <div id="progress-info" style="margin-bottom: 10px; font-weight: bold; font-size: 14px; color: #b2bec3;">문제 01 / 20</div>
         <div class="progress-container"><div id="progress-bar" class="progress-fill"></div></div>
         
         <div class="quiz-card">
             <button id="main-speaker" class="btn-speak" style="display:none;" onclick="speakCurrentWord()">🔊</button>
             <div id="question-word" class="quiz-word">Word</div>
-            <div id="word-answer-peek" style="display:none; color:#0984e3; font-size:20px; font-weight:bold; margin-bottom:10px;">정답 표시</div>
+            <div id="word-answer-peek" style="display:none; color:#4834d4; font-size:22px; font-weight:bold; margin-bottom:10px;">정답</div>
             
             <div id="example-box" class="example-box">
-                <div class="ex-en">
-                    <span class="mini-speak" onclick="speakCurrentExample()">🔊</span>
-                    <span id="ex-en-text">Example sentence</span>
+                <div style="font-size:16px; color:#2d3436; font-style:italic; margin-bottom:8px;">
+                    <span style="cursor:pointer" onclick="speakCurrentExample()">🔊</span>
+                    <span id="ex-en-text">Example</span>
                 </div>
-                <div id="ex-ko" class="ex-ko">예문 해석</div>
+                <div id="ex-ko" style="font-size:14px; color:#7f8c8d; padding-left:25px;">해석</div>
             </div>
         </div>
         
         <div id="choices" class="choice-list"></div>
-
         <div id="typing-ui" class="typing-container">
-            <input type="text" id="user-input" class="input-word" placeholder="영단어 입력" autocomplete="off" spellcheck="false">
+            <input type="text" id="user-input" class="input-word" placeholder="정답을 적어주세요!" autocomplete="off">
             <button class="btn btn-typing" onclick="checkTypingAnswer()">정답 확인</button>
         </div>
-
         <div id="study-ui" style="display:none;">
-            <button class="btn btn-choice" onclick="showStudyResult()">정답 및 예문 보기</button>
+            <button class="btn btn-choice" onclick="showStudyResult()">뜻 확인하기</button>
         </div>
-
         <button id="next-btn" class="btn btn-next" onclick="next()">다음으로 👉</button>
-        <button class="btn btn-back" onclick="location.reload()">메인으로 돌아가기</button>
+        <button class="btn btn-back" onclick="location.reload()">처음으로 돌아가기</button>
     </div>
 </div>
 
@@ -243,35 +250,26 @@
     let score = 0;
     let quizMode = '';
 
-    // TTS 발음 함수
     function playTTS(text) {
-        window.speechSynthesis.cancel(); // 이전 소리 끄기
+        window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
-        utterance.rate = 0.9; // 속도 약간 천천히
+        utterance.rate = 0.9;
         window.speechSynthesis.speak(utterance);
     }
 
-    function speakCurrentWord() {
-        playTTS(sessionWords[current].w);
-    }
-
-    function speakCurrentExample() {
-        playTTS(sessionWords[current].ex);
-    }
+    function speakCurrentWord() { playTTS(sessionWords[current].w); }
+    function speakCurrentExample() { playTTS(sessionWords[current].ex); }
 
     function startQuiz(mode) {
         quizMode = mode;
         current = 0; score = 0;
         sessionWords = [...allDatabase].sort(() => Math.random() - 0.5).slice(0, 20);
-        
         document.getElementById('main-screen').classList.remove('active');
         document.getElementById('quiz-screen').classList.add('active');
-        
         document.getElementById('choices').style.display = (mode === 'choice') ? 'grid' : 'none';
         document.getElementById('typing-ui').style.display = (mode === 'typing') ? 'block' : 'none';
         document.getElementById('study-ui').style.display = (mode === 'study') ? 'block' : 'none';
-        
         showQuestion();
     }
 
@@ -280,15 +278,14 @@
         const wordDisplay = document.getElementById('question-word');
         const peek = document.getElementById('word-answer-peek');
         const mainSpeaker = document.getElementById('main-speaker');
-        
         peek.style.display = 'none';
         
         if (quizMode === 'typing') {
             wordDisplay.innerText = q.m;
-            mainSpeaker.style.display = 'none'; // 주관식은 단어가 안보이니 스피커 숨김
+            mainSpeaker.style.display = 'none';
         } else {
             wordDisplay.innerText = q.w;
-            mainSpeaker.style.display = 'inline-flex'; // 객관식/예문은 스피커 보여줌
+            mainSpeaker.style.display = 'inline-flex';
         }
         
         document.getElementById('ex-en-text').innerText = q.ex;
@@ -316,9 +313,7 @@
             });
         } else if (quizMode === 'typing') {
             const input = document.getElementById('user-input');
-            input.value = '';
-            input.readOnly = false;
-            input.focus();
+            input.value = ''; input.readOnly = false; input.focus();
         }
     }
 
@@ -328,7 +323,7 @@
         if (selected === correct) {
             el.classList.add('correct');
             score++;
-            speakCurrentWord(); // 맞히면 단어 읽어줌
+            speakCurrentWord();
         } else {
             el.classList.add('wrong');
             allChoices.forEach(c => { if(c.innerText === correct) c.classList.add('correct'); });
@@ -344,7 +339,7 @@
         input.readOnly = true;
         if (userAnswer === correctAnswer) {
             score++;
-            speakCurrentWord(); // 맞히면 단어 읽어줌
+            speakCurrentWord();
         } else {
             document.getElementById('word-answer-peek').innerText = `정답: ${sessionWords[current].w}`;
             document.getElementById('word-answer-peek').style.display = 'block';
@@ -356,7 +351,7 @@
         document.getElementById('word-answer-peek').innerText = `뜻: ${sessionWords[current].m}`;
         document.getElementById('word-answer-peek').style.display = 'block';
         document.getElementById('study-ui').style.display = 'none';
-        speakCurrentWord(); // 뜻 볼 때 단어 읽어줌
+        speakCurrentWord();
         showResult();
     }
 
@@ -371,7 +366,7 @@
             if(quizMode === 'study') document.getElementById('study-ui').style.display = 'block';
             showQuestion();
         } else {
-            alert(`퀘스트 완료! 점수: ${score * 5}점`);
+            alert(`🎉 퀘스트 완료! ${score * 5}점을 획득했습니다!`);
             location.reload();
         }
     }
